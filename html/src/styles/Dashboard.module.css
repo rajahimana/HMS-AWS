@@ -1,0 +1,221 @@
+/* src/pages/Dashboard/Dashboard.module.css */
+.container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0;
+    display: block;
+  }
+  
+  .header {
+    margin-bottom: 32px;
+    background-color: rgb(1, 47, 107);
+    position: fixed;
+    width: 100%;
+    margin-top: 0%;
+    margin-left: 0%;
+    display: block;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: white;
+    display: inline-block;
+    margin-left: 500px;
+  }
+  
+  .searchBar {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .searchInput {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    width: 300px;
+  }
+  
+  .searchButton {
+    padding: 8px 16px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .searchButton:hover {
+    background-color: #2563eb;
+  }
+  
+  .quickActions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+    display: block;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  .cardContent {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .cardText h3 {
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .cardText p {
+    color: #666;
+    margin: 4px 0 0 0;
+  }
+  
+  .appointmentsCard {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .appointmentsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .cardTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .viewAllButton {
+    padding: 6px 12px;
+    background-color: transparent;
+    color: #3b82f6;
+    border: 1px solid #3b82f6;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .viewAllButton:hover {
+    background-color: #eff6ff;
+  }
+  
+  .appointmentsList {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .appointmentItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .appointmentItem:hover {
+    background-color: #f8fafc;
+  }
+  
+  .appointmentItem:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  .appointmentItem:last-child {
+    border-bottom: none;
+  }
+  
+  .appointmentInfo {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .doctorName {
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .appointmentDate {
+    color: #666;
+    font-size: 0.875rem;
+    margin: 4px 0 0 0;
+  }
+  
+  .status {
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+  }
+  
+  .statusScheduled {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+  
+  .statusPending {
+    background-color: #fef9c3;
+    color: #854d0e;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .quickActions {
+      grid-template-columns: 1fr;
+    }
+  
+    .searchBar {
+      flex-direction: column;
+    }
+  
+    .searchInput {
+      width: 100%;
+    }
+  
+    .appointmentsHeader {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .viewAllButton {
+      width: 100%;
+    }
+  }
+
+  .logo{
+    height: 50px;
+  }
