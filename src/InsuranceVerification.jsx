@@ -1,218 +1,180 @@
 // src/pages/Insurance/InsuranceVerification.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Search, CheckCircle, XCircle } from 'lucide-react';
 import styles from './styles/InsuranceVerification.module.css';
-import { insuranceService } from './services/insuranceService';
-import Header from './Header.jsx';
-import Footer from './Footer.jsx';
+import Header from './Header';
+import Footer from './Footer';
 
 const InsuranceVerification = () => {
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [verificationResult, setVerificationResult] = useState(null);
-    const [formData, setFormData] = useState({
-        policyNumber: '',
-        patientId: '',
-        insuranceProvider: '',
-        serviceType: ''
+  const navigate = useNavigate();
+  const [searchData, setSearchData] = useState({
+    policyNumber: '',
+    insuranceProvider: '',
+    patientId: ''
+  });
+
+  const [verificationResult, setVerificationResult] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSearchData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleVerify = (e) => {
+    e.preventDefault();
+    // Mock verification result
+    setVerificationResult({
+      status: 'active',
+      policyHolder: 'Ananya Rao',
+      coverageType: 'Full Coverage',
+      startDate: '2024-01-01',
+      endDate: '2024-12-31',
+      deductible: '$1,000',
+      copay: '$25',
+      coverageDetails: [
+        'Primary Care Visits',
+        'Specialist Visits',
+        'Hospital Stays',
+        'Emergency Services',
+        'Prescription Drugs'
+      ]
     });
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError(null);
-        setVerificationResult(null);
+  return (
+    <><Header />
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <button 
+          className={styles.backButton}
+          onClick={() => navigate('/Mainpage')}
+        >
+          <ArrowLeft size={20} />
+          Back to Dashboard
+        </button>
+        <h1>Insurance Verification</h1>
+      </div>
 
-        try {
-            setLoading(true);
-            const response = await insuranceService.verifyInsurance(formData);
-            setVerificationResult(response.data);
-        } catch (err) {
-            setError(err.message || 'Error verifying insurance');
-        } finally {
-            setLoading(false);
-        }
-    };
+      <div className={styles.content}>
+        <form className={styles.searchForm} onSubmit={handleVerify}>
+          <div className={styles.searchGrid}>
+            <div className={styles.formGroup}>
+              <label htmlFor="policyNumber">Policy Number</label>
+              <input
+                type="text"
+                id="policyNumber"
+                name="policyNumber"
+                value={searchData.policyNumber}
+                onChange={handleChange}
+                placeholder="Enter policy number"
+                required
+              />
+            </div>
 
-    const renderVerificationResult = () => {
-        if (!verificationResult) return null;
+            <div className={styles.formGroup}>
+              <label htmlFor="insuranceProvider">Insurance Provider</label>
+              <select
+                id="insuranceProvider"
+                name="insuranceProvider"
+                value={searchData.insuranceProvider}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Provider</option>
+                <option value="blueCross">Blue Cross</option>
+                <option value="aetna">Aetna</option>
+                <option value="cigna">Cigna</option>
+                <option value="unitedHealth">United Health</option>
+              </select>
+            </div>
 
-        const { status, coverage } = verificationResult;
+            <div className={styles.formGroup}>
+              <label htmlFor="patientId">Patient ID</label>
+              <input
+                type="text"
+                id="patientId"
+                name="patientId"
+                value={searchData.patientId}
+                onChange={handleChange}
+                placeholder="Enter patient ID"
+                required
+              />
+            </div>
+          </div>
 
-        return (
-            <>
-            <div className={styles.resultCard}>
-                <div className={styles.statusHeader}>
-                    {status === 'active' ? (
-                        <div className={styles.statusActive}>
-                            <CheckCircle size={24} />
-                            <span>Coverage Active</span>
-                        </div>
-                    ) : status === 'expired' ? (
-                        <div className={styles.statusExpired}>
-                            <XCircle size={24} />
-                            <span>Coverage Expired</span>
-                        </div>
-                    ) : (
-                        <div className={styles.statusPending}>
-                            <AlertTriangle size={24} />
-                            <span>Verification Pending</span>
-                        </div>
-                    )}
+          <button type="submit" className={styles.verifyButton}>
+            <Search size={20} />
+            Verify Insurance
+          </button>
+        </form>
+
+        {verificationResult && (
+          <div className={styles.resultCard}>
+            <div className={styles.statusHeader}>
+              {verificationResult.status === 'active' ? (
+                <div className={styles.statusActive}>
+                  <CheckCircle size={24} />
+                  <span>Coverage Active</span>
                 </div>
-
-                {status === 'active' && (
-                    <>
-                        <div className={styles.coverageDetails}>
-                            <div className={styles.detailRow}>
-                                <span>Policy Holder</span>
-                                <span>{coverage.policyHolder}</span>
-                            </div>
-                            <div className={styles.detailRow}>
-                                <span>Coverage Type</span>
-                                <span>{coverage.type}</span>
-                            </div>
-                            <div className={styles.detailRow}>
-                                <span>Start Date</span>
-                                <span>{new Date(coverage.startDate).toLocaleDateString()}</span>
-                            </div>
-                            <div className={styles.detailRow}>
-                                <span>End Date</span>
-                                <span>{new Date(coverage.expirationDate).toLocaleDateString()}</span>
-                            </div>
-                        </div>
-
-                        {coverage.benefits && (
-                            <div className={styles.benefits}>
-                                <h3>Coverage Benefits</h3>
-                                <ul>
-                                    {Object.entries(coverage.benefits).map(([benefit, value]) => (
-                                        <li key={benefit}>
-                                            <span>{benefit}</span>
-                                            <span>{value}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-                    </>
-                )}
-            </div>
-        </>
-        );
-    };
-
-    return (
-        <><Header />
-        <div className={styles.container}>
-            <div className={styles.header}>
-                <button 
-                    className={styles.backButton}
-                    onClick={() => navigate('/')}
-                >
-                    <ArrowLeft size={20} />
-                    Back to Dashboard
-                </button>
-                <h1>Insurance Verification</h1>
+              ) : (
+                <div className={styles.statusInactive}>
+                  <XCircle size={24} />
+                  <span>Coverage Inactive</span>
+                </div>
+              )}
             </div>
 
-            {error && <div className={styles.error}>{error}</div>}
+            <div className={styles.resultGrid}>
+              <div className={styles.resultItem}>
+                <label>Policy Holder</label>
+                <span>{verificationResult.policyHolder}</span>
+              </div>
 
-            <div className={styles.content}>
-                <form className={styles.verificationForm} onSubmit={handleSubmit}>
-                    <div className={styles.formGrid}>
-                        <div className={styles.formGroup}>
-                            <label htmlFor="policyNumber">Policy Number *</label>
-                            <input
-                                type="text"
-                                id="policyNumber"
-                                name="policyNumber"
-                                value={formData.policyNumber}
-                                onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    policyNumber: e.target.value
-                                }))}
-                                required
-                            />
-                        </div>
+              <div className={styles.resultItem}>
+                <label>Coverage Type</label>
+                <span>{verificationResult.coverageType}</span>
+              </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="insuranceProvider">Insurance Provider *</label>
-                            <input
-                                type="text"
-                                id="insuranceProvider"
-                                name="insuranceProvider"
-                                value={formData.insuranceProvider}
-                                onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    insuranceProvider: e.target.value
-                                }))}
-                                required
-                            />
-                        </div>
+              <div className={styles.resultItem}>
+                <label>Start Date</label>
+                <span>{verificationResult.startDate}</span>
+              </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="patientId">Patient ID *</label>
-                            <input
-                                type="text"
-                                id="patientId"
-                                name="patientId"
-                                value={formData.patientId}
-                                onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    patientId: e.target.value
-                                }))}
-                                required
-                            />
-                        </div>
+              <div className={styles.resultItem}>
+                <label>End Date</label>
+                <span>{verificationResult.endDate}</span>
+              </div>
 
-                        <div className={styles.formGroup}>
-                            <label htmlFor="serviceType">Service Type</label>
-                            <select
-                                id="serviceType"
-                                name="serviceType"
-                                value={formData.serviceType}
-                                onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    serviceType: e.target.value
-                                }))}
-                            >
-                                <option value="">Select Service Type</option>
-                                <option value="consultation">Consultation</option>
-                                <option value="procedure">Procedure</option>
-                                <option value="surgery">Surgery</option>
-                                <option value="diagnostic">Diagnostic</option>
-                                <option value="emergency">Emergency</option>
-                                <option value="preventive">Preventive Care</option>
-                                <option value="dental">Dental</option>
-                                <option value="vision">Vision</option>
-                            </select>
-                        </div>
-                    </div>
+              <div className={styles.resultItem}>
+                <label>Deductible</label>
+                <span>{verificationResult.deductible}</span>
+              </div>
 
-                    <button 
-                        type="submit" 
-                        className={styles.verifyButton}
-                        disabled={loading}
-                    >
-                        {loading ? (
-                            <span className={styles.loading}>Verifying...</span>
-                        ) : (
-                            <>
-                                <Search size={20} />
-                                Verify Insurance
-                            </>
-                        )}
-                    </button>
-                </form>
-
-                {renderVerificationResult()}
+              <div className={styles.resultItem}>
+                <label>Copay</label>
+                <span>{verificationResult.copay}</span>
+              </div>
             </div>
-        </div>
-                <Footer />
-        </>
-    );
+
+            <div className={styles.coverageDetails}>
+              <h3>Coverage Details</h3>
+              <ul>
+                {verificationResult.coverageDetails.map((detail, index) => (
+                  <li key={index}>{detail}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+    <Footer/>
+    </>
+  );
 };
 
 export default InsuranceVerification;

@@ -1,8 +1,11 @@
 /* src/pages/Patients/PatientRegistration.module.css */
 .container {
     padding: 24px;
-    max-width: 1000px;
+    width: 600px;
     margin: 0 auto;
+    margin-top: 10%;
+    margin-left: 400px;
+
   }
   
   .header {
@@ -62,6 +65,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 4px;
     font-size: 14px;
+    background-color: white;
   }
   
   .formGroup textarea {
@@ -117,4 +121,19 @@
     .submitButton {
       width: 100%;
     }
+  }
+
+  .backButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    color: #4b5563;
+    cursor: pointer;
+  }
+  
+  .backButton:hover {
+    color: #1f2937;
   }

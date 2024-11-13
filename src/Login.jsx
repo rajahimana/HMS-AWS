@@ -55,8 +55,8 @@ function Login() {
 
     return (
         <div className={styles.appContainer}>
+                            <Header />
             <div className={styles.scrollableContent}>
-                <Header />
                 <h3 className={styles.titletext}>Log in to Dashboard</h3>
                 <div className={styles.container}>
                     <div className={styles.LoginCard}>
@@ -96,8 +96,8 @@ function Login() {
                     <p>The easiest way to manage your policies, make payments, view statements, and more.</p>
                     <p>Scan QR code to Download!</p>
                 </div>
-                <Footer />
             </div>
+            <Footer />
         </div>
     );
 }

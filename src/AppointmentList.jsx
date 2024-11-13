@@ -11,8 +11,8 @@ const AppointmentList = () => {
   const [appointments] = useState([
     {
       id: 1,
-      patientName: 'John Doe',
-      doctor: 'Dr. Smith',
+      patientName: 'Vikranth Singh',
+      doctor: 'Dr. Alekhya',
       date: '2024-11-10',
       time: '10:00 AM',
       status: 'Scheduled',
@@ -20,8 +20,8 @@ const AppointmentList = () => {
     },
     {
       id: 2,
-      patientName: 'Jane Smith',
-      doctor: 'Dr. Johnson',
+      patientName: 'Kareena Singh',
+      doctor: 'Dr. Vishnu',
       date: '2024-11-10',
       time: '11:30 AM',
       status: 'Completed',
@@ -31,15 +31,15 @@ const AppointmentList = () => {
   ]);
 
   return (
-    <>      <Header/>
-          <button 
-                    className={styles.backButton}
-                    onClick={() => navigate('/Mainpage')}
-                >
-                    <ArrowLeft size={20} />
-                    Back to Dashboard
-                </button>
+    <><Header />
     <div className={styles.container}>
+    <button 
+          className={styles.backButton}
+          onClick={() => navigate('/Mainpage')}
+        >
+          <ArrowLeft size={20} />
+          Back to Dashboard
+        </button>
       <div className={styles.header}>
         <div className={styles.titleSection}>
           <h1>Appointments</h1>
@@ -102,7 +102,8 @@ const AppointmentList = () => {
         </table>
       </div>
     </div>
-    <Footer/></>
+    <Footer/>
+    </>
   );
 };
 

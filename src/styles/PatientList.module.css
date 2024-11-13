@@ -123,3 +123,18 @@
       justify-content: center;
     }
   }
+
+  .backButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    color: #4b5563;
+    cursor: pointer;
+  }
+  
+  .backButton:hover {
+    color: #1f2937;
+  }
