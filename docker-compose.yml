@@ -1,0 +1,11 @@
+services:
+  website:
+    build:
+      context: ./html
+    image: nginx:latest
+    container_name: website
+    volumes:
+      - ./html:/usr/share/nginx/html
+    ports:
+      - 8081:80
+    restart: always
